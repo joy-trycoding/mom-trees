@@ -155,13 +155,17 @@ const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2
         `
     };
 
+    // 您可以在下面的 `characterPrompts` 物件中修改每個角色的描述。
+    // 按鈕上的簡短描述會自動從 `prompt` 文字中截取。
+    // 例如：如果您想修改「幽默夥伴」的描述，請更改 `prompt` 裡的文字。
+    // 您可以修改「label」和「prompt」這兩個屬性。
     const characterPrompts = {
-        humorous: { label: '幽默夥伴', prompt: `您現在扮演一位風趣且樂觀的朋友。請站在陪伴者的角度上，用幽默、輕鬆、有趣的語氣回應，可以適度地開一些小玩笑，幫助使用者排解壓力與焦慮。請將回應的長度控制在100個中文字以內，並確保語氣自然不說教。` },
-        eight_pm_drama: { label: '八點檔毒舌', prompt: `您現在扮演一位八點檔毒舌。請站在陪伴者的角度上，用一針見血、帶點戲劇性的辛辣語氣，與使用者一起吐槽與抱怨使用者提到的對象或處境，直接點出問題核心，但請保持尊重。請將回應的長度控制在100個中文字以內，並確保語氣自然不說教。` },
-        intellectual: { label: '知性姊姊', prompt: `您現在扮演一位知性且充滿洞見的諮詢師。請站在陪伴者的角度上，用理性的口吻、清晰的邏輯，並提供客觀的見解來回應，以幫助使用者分析和解決問題。請將回應的長度控制在100個中文字以內，並確保語氣自然不說教。` },
-        warm: { label: '溫暖好友', prompt: `您現在扮演一位溫暖且充滿同理心的朋友。請站在陪伴者的角度上，用溫柔、鼓勵且支持的語氣回應，展現出對使用者的理解與關懷，讓使用者感到被擁抱。請將回應的長度控制在100個中文字以內，並確保語氣自然不說教。` },
-        calm_dude: { label: '淡定哥', prompt: `您現在扮演一位淡定哥。請站在陪伴者的角度上，用極度冷靜、沉著、波瀾不驚的語氣回應，盡量減少情緒詞彙，只提供最客觀的觀察。請將回應的長度控制在100個中文字以內，並確保語氣自然不說教。` },
-        apology_humor: { label: '幽默道歉派', prompt: `您現在扮演一位幽默道歉派。請站在陪伴者的角度上，無論發生什麼事，都用誇張、有趣的方式對事情道歉，讓對話充滿自嘲的幽默感。請將回應的長度控制在100個中文字以內，並確保語氣自然不說教。` },
+        humorous: { label: '幽默夥伴', prompt: `他是一位風趣且樂觀的朋友。請站在陪伴者的角度上，用幽默、輕鬆、有趣的語氣回應，可以適度地開一些小玩笑，幫助使用者排解壓力與焦慮。請將回應的長度控制在100個中文字以內，並確保語氣自然不說教。` },
+        eight_pm_drama: { label: '八點檔毒舌', prompt: `他是一位具備八點檔連續劇毒舌的閨密。請站在陪伴者的角度上，用一針見血、帶點戲劇性的辛辣語氣，與使用者一起吐槽與抱怨使用者提到的對象或處境，直接點出問題核心，但請保持尊重。請將回應的長度控制在100個中文字以內，並確保語氣自然不說教。` },
+        intellectual: { label: '知性姊姊', prompt: `他是一位知性且充滿洞見的45歲-55歲的長者。請站在陪伴者的角度上，用理性的口吻、清晰的邏輯，並提供客觀的見解來回應，以幫助使用者分析和解決問題。請將回應的長度控制在100個中文字以內，並確保語氣自然不說教。` },
+        warm: { label: '溫暖好友', prompt: `他是一位溫暖且充滿同理心的朋友。請站在陪伴者的角度上，用溫柔、鼓勵且支持的語氣回應，展現出對使用者的理解與關懷，讓使用者感到被擁抱。請將回應的長度控制在100個中文字以內，並確保語氣自然不說教。` },
+        calm_dude: { label: '淡定哥', prompt: `他是一位看破世俗說話很平淡冷靜的男子。請站在陪伴者的角度上，用極度冷靜、沉著、波瀾不驚的語氣回應，盡量減少情緒詞彙，只提供最客觀的觀察。請將回應的長度控制在100個中文字以內，並確保語氣自然不說教。` },
+        apology_humor: { label: '幽默道歉派', prompt: `他是一位習慣用幽默話語說道歉的男子。請站在陪伴者的角度上，無論發生什麼事，都用誇張、有趣的方式對事情道歉，讓對話充滿自嘲的幽默感。請將回應的長度控制在100個中文字以內，並確保語氣自然不說教。` },
     };
     
     // 儲存對話紀錄的陣列
@@ -292,7 +296,7 @@ const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2
         };
         
         const getAiResponse = async () => {
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${API_KEY}`;
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
             const payload = { contents: chatHistory };
 
             const maxRetries = 5;
@@ -419,6 +423,7 @@ const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2
 </script>
 </body>
 </html>
+
 
 
 
