@@ -30,6 +30,10 @@
     // 獨立運作版：這個版本不依賴 Firebase，所有資料都儲存在瀏覽器中。
     // 因此，請注意：如果重新整理頁面，對話紀錄將會消失。
     
+    // 將您的 API 金鑰貼到下方。這是您與 AI 服務溝通的「鑰匙」！
+    // 重要：為了安全考量，請勿將您的 API 金鑰分享給他人。
+    const API_KEY = "YOUR_API_KEY_HERE"; // <-- 請將您的金鑰字串貼在這裡，例如：const API_KEY = "AIzaSyB-abcdef1234567890";
+
     // 準備好所有的網頁頁面
     const pages = {
         intro: () => `
@@ -322,8 +326,8 @@
             const chatHistoryForAPI = [{ role: "user", parts: [{ text: `${characterPrompts[tone]}使用者說：${userMessage}` }] }];
             const payload = { contents: chatHistoryForAPI };
             
-            // 修正：移除 API 金鑰參數，因為環境會自動提供，URL 必須保持純淨
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent`;
+            // 修正：在 URL 中加入您的 API 金鑰
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${AIzaSyAwU6yJNDUBdT9bhMGdWc73a9V3DyA7T8E}`;
 
             const maxRetries = 5;
             let attempt = 0;
@@ -337,7 +341,7 @@
                 
                 if (!response.ok) {
                     const errorText = await response.text();
-                    console.error("API 錯誤回應:", response.status, errorText);
+                    console.error("API 回應錯誤:", response.status, errorText);
                     return "目前無法回應，請稍後再試。";
                 }
 
@@ -395,19 +399,25 @@
                 });
             };
 
-            const userConfirmed = await customConfirm('嗨，離開之後就無法進入現在的對話喔!!');
+            const userConfirmed = await customConfirm("您確定要切換角色嗎？對話紀錄將會清除！");
             if (userConfirmed) {
-                clearInterval(timerInterval);
-                localStorage.removeItem('nickname');
-                localStorage.removeItem('selectedTone');
-                localStorage.removeItem('chatHistory');
+                localStorage.clear();
                 window.location.reload();
             }
         });
 
-        // 初始渲染對話紀錄
         renderMessages();
+    }
+    
+    // 獨立運作版：不依賴 Canvas 環境
+    if (typeof __initial_auth_token === 'undefined') {
+        renderPage('intro');
     }
 </script>
 </body>
 </html>
+    }
+</script>
+</body>
+</html>
+
