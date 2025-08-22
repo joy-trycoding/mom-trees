@@ -38,10 +38,8 @@
     // 獨立運作版：這個版本不依賴 Firebase，所有資料都儲存在瀏覽器中。
     // 因此，請注意：如果重新整理頁面，對話紀錄將會消失。
     
-    // 將您的 API 金鑰貼到下方。這是您與 AI 服務溝通的「鑰匙」！
-    // 重要：為了安全考量，請勿將您的 API 金鑰分享給他人。
-    const API_KEY = "AIzaSyAwU6yJNDUBdT9bhMGdWc73a9V3DyA7T8E"; // <-- 我已經將您的金鑰字串貼在這裡。
-
+const apiKey = "AIzaSyAwU6yJNDUBdT9bhMGdWc73a9V3DyA7T8E";
+const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-05-20:generateContent?key=${apiKey}`;
     // 準備好所有的網頁頁面
     const pages = {
         intro: () => `
@@ -421,5 +419,6 @@
 </script>
 </body>
 </html>
+
 
 
